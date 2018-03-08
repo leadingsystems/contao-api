@@ -2,8 +2,6 @@
 
 namespace LeadingSystems\Api;
 
-use \LeadingSystems\Helpers;
-
 class ls_apiController extends \Controller {
 	protected $str_status = 'fail';
 	protected $var_data = null;
@@ -211,13 +209,8 @@ class ls_apiController extends \Controller {
 		try {
 			if (isset($GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest']) && is_array($GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'])) {
 				foreach ($GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'] as $ls_api_hookCallback) {
-					if (version_compare(VERSION, '3.0', '>=')) {
-						$objMccb = \System::importStatic($ls_api_hookCallback[0]);
-						$objMccb->{$ls_api_hookCallback[1]}($str_resourceName, $this);
-					} else {
-						$objMccb = Helpers\ls_helpers_controller::importStatic($ls_api_hookCallback[0]);
-						$objMccb->{$ls_api_hookCallback[1]}($str_resourceName, $this);
-					}
+					$objMccb = \System::importStatic($ls_api_hookCallback[0]);
+					$objMccb->{$ls_api_hookCallback[1]}($str_resourceName, $this);
 
 					/*
 					 * If one hooked callback function reacted on the given resource
