@@ -5,7 +5,7 @@ namespace LeadingSystems\Api;
 class ls_apiResourceControllerStandardFrontend extends \Controller {
 	protected static $objInstance;
 
-	/** @var $obj_apiReceiver ls_apiController */
+	/** @var ls_apiController $obj_apiReceiver */
 	protected $obj_apiReceiver = null;
 
 	protected function __construct() {
