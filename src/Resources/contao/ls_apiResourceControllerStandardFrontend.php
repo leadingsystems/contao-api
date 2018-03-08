@@ -4,6 +4,8 @@ namespace LeadingSystems\Api;
 
 class ls_apiResourceControllerStandardFrontend extends \Controller {
 	protected static $objInstance;
+
+	/** @var $obj_apiReceiver ls_apiController */
 	protected $obj_apiReceiver = null;
 
 	protected function __construct() {
@@ -39,9 +41,16 @@ class ls_apiResourceControllerStandardFrontend extends \Controller {
 	}
 	
 	/**
+	 * [Frontend resource]
 	 * Returns the currently logged in frontend user's name
 	 */
 	protected function apiResource_getCurrentFrontendUserName() {
+		if (TL_MODE !== 'FE') {
+			$this->obj_apiReceiver->fail();
+			$this->obj_apiReceiver->set_data('Frontend only');
+			return;
+		}
+
 		if (!FE_USER_LOGGED_IN) {
 			$this->obj_apiReceiver->error();
 			$this->obj_apiReceiver->set_message('no frontend user currently logged in');

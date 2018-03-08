@@ -4,6 +4,8 @@ namespace LeadingSystems\Api;
 
 class ls_apiResourceControllerStandardBackend extends \Controller {
 	protected static $objInstance;
+
+	/** @var $obj_apiReceiver ls_apiController */
 	protected $obj_apiReceiver = null;
 
 	protected function __construct() {
@@ -39,9 +41,15 @@ class ls_apiResourceControllerStandardBackend extends \Controller {
 	}
 	
 	/**
+	 * [Backend resource]
 	 * Returns the currently logged in backend user's name
 	 */
 	protected function apiResource_getCurrentBackendUserName() {
+		if (TL_MODE !== 'BE') {
+			$this->obj_apiReceiver->fail();
+			$this->obj_apiReceiver->set_data('Backend only');
+			return;
+		}
 		$this->import('BackendUser');
 		$this->obj_apiReceiver->success();
 		$this->obj_apiReceiver->set_data($this->BackendUser->name);

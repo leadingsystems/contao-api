@@ -14,10 +14,6 @@ $GLOBALS['BE_MOD']['ls_api']['be_mod_ls_apiReceiver'] = array(
 
 $GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'][] = array('LeadingSystems\Api\ls_apiResourceControllerStandard', 'processRequest');
 
-if (TL_MODE === 'BE') {
-	$GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'][] = array('LeadingSystems\Api\ls_apiResourceControllerStandardBackend', 'processRequest');
-}
+$GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'][] = array('LeadingSystems\Api\ls_apiResourceControllerStandardBackend', 'processRequest');
 
-if (TL_MODE === 'FE') {
-	$GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'][] = array('LeadingSystems\Api\ls_apiResourceControllerStandardFrontend', 'processRequest');
-}
+$GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'][] = array('LeadingSystems\Api\ls_apiResourceControllerStandardFrontend', 'processRequest');

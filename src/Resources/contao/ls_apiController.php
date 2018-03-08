@@ -292,12 +292,8 @@ class ls_apiController extends \Controller {
 		
 		if (TL_MODE === 'FE') {
 			/*
-			 * Disabling the registered generateFrontendUrl hooks is a workaround
-			 * to make sure that registered hooks can not produce an error. For example
-			 * in Vakanza, this happened. Maybe in some situation it is necessary
-			 * to call registered hooks even when creating the api url and then
-			 * we might have to reconsider this workaround but until then, that's
-			 * our solution.
+			 * Disabling the registered generateFrontendUrl hooks to make sure that registered hooks
+			 * can not produce an error.
 			 */
 			$arr_tmp_generateFrontendUrlHooks = $GLOBALS['TL_HOOKS']['generateFrontendUrl'];
 			$GLOBALS['TL_HOOKS']['generateFrontendUrl'] = array();
