@@ -41,15 +41,17 @@ class ls_apiResourceControllerStandardBackend extends \Controller {
 	}
 	
 	/**
-	 * [Backend resource]
 	 * Returns the currently logged in backend user's name
+	 *
+	 * Scope: BE
+	 *
+	 * Allowed user types: apiUser, beUser
+	 *
 	 */
 	protected function apiResource_getCurrentBackendUserName() {
-		if (TL_MODE !== 'BE') {
-			$this->obj_apiReceiver->fail();
-			$this->obj_apiReceiver->set_data('Backend only');
-			return;
-		}
+		$this->obj_apiReceiver->requireScope(['BE']);
+		$this->obj_apiReceiver->requireUser(['apiUser', 'beUser']);
+
 		$this->import('BackendUser');
 		$this->obj_apiReceiver->success();
 		$this->obj_apiReceiver->set_data($this->BackendUser->name);

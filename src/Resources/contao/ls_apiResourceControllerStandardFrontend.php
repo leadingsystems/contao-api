@@ -41,15 +41,15 @@ class ls_apiResourceControllerStandardFrontend extends \Controller {
 	}
 	
 	/**
-	 * [Frontend resource]
 	 * Returns the currently logged in frontend user's name
+	 *
+	 * Scope: FE
+	 *
+	 * Allowed user types: apiUser, feUser
 	 */
 	protected function apiResource_getCurrentFrontendUserName() {
-		if (TL_MODE !== 'FE') {
-			$this->obj_apiReceiver->fail();
-			$this->obj_apiReceiver->set_data('Frontend only');
-			return;
-		}
+		$this->obj_apiReceiver->requireScope(['FE']);
+		$this->obj_apiReceiver->requireUser(['apiUser', 'feUser']);
 
 		if (!FE_USER_LOGGED_IN) {
 			$this->obj_apiReceiver->error();
