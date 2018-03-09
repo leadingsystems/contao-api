@@ -42,6 +42,10 @@ class ls_apiResourceControllerStandard extends \Controller {
 	
 	/**
 	 * Loads a contao language file.
+	 *
+	 * Scope: FE and BE
+	 *
+	 * Allowed user types: apiUser, feUser, beUser
 	 * 
 	 * Parameters:
 	 * >> var_name (mandatory): an array of language file names to load
@@ -50,6 +54,9 @@ class ls_apiResourceControllerStandard extends \Controller {
 	 * >> bln_noCache (optional): true/false to indicate whether or not to use the cache
 	 */
 	protected function apiResource_loadLanguageFiles() {
+		$this->obj_apiReceiver->requireScope(['FE', 'BE']);
+		$this->obj_apiReceiver->requireUser(['apiUser', 'feUser', 'beUser']);
+
 		/*
 		 * ==>
 		 * Read and validate input parameters

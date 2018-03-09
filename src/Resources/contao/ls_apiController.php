@@ -180,7 +180,19 @@ class ls_apiController extends \Controller {
 		echo $json_return;
 		exit;
 	}
-	
+
+	public function requireUser($arr_requiredUserTypes = ['apiUser']) {
+		if (!ls_api_authHelper::authenticate($arr_requiredUserTypes)) {
+			throw new \Exception('Access denied');
+		}
+	}
+
+	public function requireScope($arr_requiredScopes = ['FE', 'BE']) {
+		if (!in_array(TL_MODE, $arr_requiredScopes)) {
+			throw new \Exception('Scope not allowed: '.TL_MODE);
+		}
+	}
+
 	protected function processRequest() {
 		/*
 		 * Identify the requested resource
