@@ -6,17 +6,15 @@ if (TL_MODE == 'BE') {
 	$GLOBALS['TL_CSS'][] = 'bundles/leadingsystemsapi/be/css/style.css';
 }
 
-array_insert($GLOBALS['BE_MOD'], 0, array(
-	'ls_api' => array(
-		'ls_api_user' => array(
-			'tables' => array('tl_ls_api_user')
-		),
+$GLOBALS['BE_MOD']['ls_api'] = array(
+	'ls_api_user' => array(
+		'tables' => array('tl_ls_api_user')
+	),
 
-		'be_mod_ls_apiReceiver' => array(
-			'callback' => 'LeadingSystems\Api\be_mod_ls_apiReceiver'
-		)
+	'be_mod_ls_apiReceiver' => array(
+		'callback' => 'LeadingSystems\Api\be_mod_ls_apiReceiver'
 	)
-));
+);
 
 $GLOBALS['FE_MOD']['ls_api'] = array(
 	'ls_apiReceiver' => 'LeadingSystems\Api\mod_ls_apiReceiver'
