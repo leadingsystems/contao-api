@@ -328,13 +328,4 @@ class ls_apiController extends \Controller {
 		
 		return $str_resourceDescription;
 	}
-	
-	/*
-	 * Remove LS_API from the backend navigation using the getUserNavigation hook
-	 * because LS_API is not meant to be opened from there.
-	 */
-	public function manipulateBackendNavigation($arr_modules, $blnShowAll) {
-		unset($arr_modules['ls_api']);
-		return $arr_modules;
-	}
 }
