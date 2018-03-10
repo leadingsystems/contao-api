@@ -7,6 +7,10 @@ if (TL_MODE == 'BE') {
 }
 
 $GLOBALS['BE_MOD']['ls_api'] = array(
+	'ls_api_settings' => array(
+		'tables' => array('tl_ls_api_settings')
+	),
+
 	'ls_api_user' => array(
 		'tables' => array('tl_ls_api_user')
 	),
@@ -19,6 +23,8 @@ $GLOBALS['BE_MOD']['ls_api'] = array(
 $GLOBALS['FE_MOD']['ls_api'] = array(
 	'ls_apiReceiver' => 'LeadingSystems\Api\mod_ls_apiReceiver'
 );
+
+$GLOBALS['TL_HOOKS']['addCustomRegexp'][] = array('LeadingSystems\Api\ls_api_custom_regexp', 'customRegexp');
 
 $GLOBALS['TL_HOOKS']['initializeSystem'][] = array('LeadingSystems\Api\ls_api_authHelper', 'bypassRefererCheckWithValidApiKey');
 

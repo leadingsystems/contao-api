@@ -57,7 +57,7 @@ ls_api_username:  username-of-an-api-user
 ls_api_password:  password-of-an-api-user
 ```
 
-The API can accept API users, frontend userw or backend users, depending on the requested
+The API can accept API users, frontend users or backend users, depending on the requested
 resource. If a resource accepts only API users (users explicitly defined as API users
 in the backend) the parameters `ls_api_username` and `ls_api_password` are mandatory.
 
