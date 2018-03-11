@@ -7,8 +7,8 @@ if (TL_MODE == 'BE') {
 }
 
 $GLOBALS['BE_MOD']['ls_api'] = array(
-	'ls_api_settings' => array(
-		'tables' => array('tl_ls_api_settings')
+	'ls_api_key' => array(
+		'tables' => array('tl_ls_api_key')
 	),
 
 	'ls_api_user' => array(

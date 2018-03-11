@@ -2,7 +2,7 @@
 /*
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_ls_api_settings']['ls_api_key'] = array(
+$GLOBALS['TL_LANG']['tl_ls_api_key']['ls_api_key'] = array(
 	'API-Key',
 	'Bitte erzeugen Sie einen API-Key, falls Sie dies noch nicht getan haben. Tragen Sie hierzu ein Passwort Ihrer Wahl
 in das Feld ein und speichern Sie. Das Passwort wird dann verschlüsselt und daraus der API-Key erzeugt. Um den API-Key
@@ -15,4 +15,4 @@ haben. Bitte führen Sie eine Änderung nur durch, wenn Sie sich absolut sicher 
 /*
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_ls_api_settings']['security_legend']   = 'Sicherheitseinstellungen';
+$GLOBALS['TL_LANG']['tl_ls_api_key']['security_legend']   = 'Sicherheitseinstellungen';
