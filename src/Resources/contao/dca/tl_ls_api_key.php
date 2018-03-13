@@ -5,7 +5,10 @@ namespace LeadingSystems\Api;
 $GLOBALS['TL_DCA']['tl_ls_api_key'] = array(
 	'config' => array(
 		'dataContainer' => 'File',
-		'closed' => true
+		'closed' => true,
+		'onsubmit_callback' => array(
+			array('LeadingSystems\Api\tl_ls_api_key', 'removeApiKeyEntryFromLog')
+		)
 	),
 
 	'palettes' => array(
@@ -17,7 +20,7 @@ $GLOBALS['TL_DCA']['tl_ls_api_key'] = array(
 			'exclude' => true,
 			'label' => &$GLOBALS['TL_LANG']['tl_ls_api_key']['ls_api_key'],
 			'inputType' => 'text',
-			'eval' => array('tl_class' => 'clr', 'rgxp' => 'ls_api_key'),
+			'eval' => array('tl_class' => 'clr', 'rgxp' => 'ls_api_key', 'autocomplete' => 'off'),
 			'save_callback' => array(
 				array('LeadingSystems\Api\tl_ls_api_key', 'createApiKey')
 			)
@@ -71,5 +74,14 @@ class tl_ls_api_key extends \Backend
 				return $str_value;
 			}
 		}
+	}
+
+	public function removeApiKeyEntryFromLog() {
+		\Database::getInstance()
+			->prepare("
+				DELETE FROM		`tl_log`
+				WHERE			`text` LIKE '%ls_api_key%'
+			")
+			->execute();
 	}
 }
