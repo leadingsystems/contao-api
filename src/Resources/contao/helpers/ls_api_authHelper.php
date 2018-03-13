@@ -95,11 +95,8 @@ class ls_api_authHelper
 		}
 	}
 
-	/*
-	 * FIXME: Implement functionality!
-	 */
 	protected static function getApiKey()
 	{
-		return '--DUMMYKEY--';
+		return $GLOBALS['TL_CONFIG']['ls_api_key'];
 	}
 }
