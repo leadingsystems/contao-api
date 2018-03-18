@@ -76,6 +76,9 @@ class ls_api_authHelper
 	protected static function checkApiKey()
 	{
 		$str_apiKey = \Input::post('ls_api_key');
+		if (!$str_apiKey) {
+			$str_apiKey = \Input::get('ls_api_key');
+		}
 
 		if ($str_apiKey && $str_apiKey === self::getApiKey()) {
 			return true;
