@@ -45,7 +45,7 @@ class ls_apiResourceControllerStandard extends \Controller {
 	 *
 	 * Scope: FE and BE
 	 *
-	 * Allowed user types: apiUser, feUser, beUser
+	 * Allowed user types: no restriction
 	 * 
 	 * Parameters:
 	 * >> var_name (mandatory): an array of language file names to load
@@ -55,7 +55,6 @@ class ls_apiResourceControllerStandard extends \Controller {
 	 */
 	protected function apiResource_loadLanguageFiles() {
 		$this->obj_apiReceiver->requireScope(['FE', 'BE']);
-		$this->obj_apiReceiver->requireUser(['apiUser', 'feUser', 'beUser']);
 
 		/*
 		 * ==>
