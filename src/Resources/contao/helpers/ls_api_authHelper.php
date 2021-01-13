@@ -66,11 +66,28 @@ class ls_api_authHelper
 			return false;
 		}
 
-		if (password_verify($str_password, $obj_apiUser->password)) {
-			return true;
+		if (
+			defined('PASSWORD_ARGON2I')
+			&& (false === strpos($obj_apiUser->password, '$argon2id$'))
+		) {
+			return password_verify($str_password, $obj_apiUser->password);
 		}
 
-		return false;
+		if (function_exists('sodium_crypto_pwhash_str_verify')) {
+			$bln_isValid = sodium_crypto_pwhash_str_verify($obj_apiUser->password, $str_password);
+			sodium_memzero($str_password);
+
+			return $bln_isValid;
+		}
+
+		if (extension_loaded('libsodium')) {
+			$bln_isValid = \Sodium\crypto_pwhash_str_verify($obj_apiUser->password, $str_password);
+			\Sodium\memzero($str_password);
+
+			return $bln_isValid;
+		}
+
+		throw new \Exception('Password could not be verified. Please install the libsodium extension.');
 	}
 
 	protected static function checkApiKey()
