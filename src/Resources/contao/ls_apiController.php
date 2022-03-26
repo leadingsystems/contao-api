@@ -145,6 +145,13 @@ class ls_apiController extends \Controller {
 
 		$this->processRequest();
 		
+        if (isset($GLOBALS['LS_API_HOOKS']['afterProcessingRequest']) && is_array($GLOBALS['LS_API_HOOKS']['afterProcessingRequest'])) {
+            foreach ($GLOBALS['LS_API_HOOKS']['afterProcessingRequest'] as $ls_api_hookCallback) {
+                $objMccb = \System::importStatic($ls_api_hookCallback[0]);
+                $objMccb->{$ls_api_hookCallback[1]}($this);
+            }
+        }
+
 		$arr_jsend = array(
 			'status' => $this->str_status,
 			'data' => $this->var_data
