@@ -323,7 +323,7 @@ class ls_apiController extends \Controller {
 			$GLOBALS['TL_HOOKS']['generateFrontendUrl'] = $arr_tmp_generateFrontendUrlHooks;
 			unset($arr_tmp_generateFrontendUrlHooks);
 		} else {
-			$str_resourceUrl = $this->Environment->base.'contao/main.php?do=be_mod_ls_apiReceiver&resource='.$str_resourceName;
+			$str_resourceUrl = $this->Environment->base.'contao?do=be_mod_ls_apiReceiver&resource='.$str_resourceName;
 		}
 		
 		return $str_resourceUrl;
