@@ -98,7 +98,7 @@ $GLOBALS['TL_DCA']['tl_ls_api_user'] = array(
 				'maxlength' => 64,
 				'tl_class'=>'w50'
 			),
-			'sql' => "varchar(64) COLLATE utf8_bin NULL"
+			'sql' => "varchar(64) BINARY NULL"
 		),
 
 		'password' => array
