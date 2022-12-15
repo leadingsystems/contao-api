@@ -17,7 +17,7 @@ class ls_api_custom_regexp
 						return false;
 					}
 				} else if ($var_value !== $GLOBALS['TL_CONFIG']['ls_api_key']) {
-					list($str_oldPassword, $str_newPassword) = explode(':', $var_value);
+					list($str_oldPassword, $str_newPassword) = explode(':', ($var_value ?? []));
 					if (!$str_newPassword) {
 						$obj_widget->addError($GLOBALS['TL_LANG']['MSC']['ls_api']['rgxpErrorMessages']['ls_api_key']['changePasswordSyntaxWrong']);
 						return false;

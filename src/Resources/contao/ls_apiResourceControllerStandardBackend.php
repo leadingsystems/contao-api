@@ -12,7 +12,7 @@ class ls_apiResourceControllerStandardBackend extends \Controller {
 		parent::__construct();
 	}
 
-	final private function __clone() {}
+	private function __clone() {}
 
 	public static function getInstance() {
 		if (!is_object(self::$objInstance))
