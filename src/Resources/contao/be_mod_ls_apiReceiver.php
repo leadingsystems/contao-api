@@ -9,7 +9,7 @@ class be_mod_ls_apiReceiver extends \BackendModule {
 		 * Contao would create "back" links pointing to api call URIs.
 		 */
 		$session = $this->Session->getData();
-		$_SERVER['REQUEST_URI'] = $session['referer']['current'];
+		$_SERVER['REQUEST_URI'] = $session['referer']['current'] ?? null;
 		$this->Environment->requestUri = $_SERVER['REQUEST_URI'];
 
 		$obj_apiController = new ls_apiController();
