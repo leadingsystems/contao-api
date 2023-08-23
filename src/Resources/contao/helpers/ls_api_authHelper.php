@@ -22,7 +22,7 @@ class ls_api_authHelper
 
 	protected static function authenticateFrontendUser()
 	{
-		if (FE_USER_LOGGED_IN) {
+		if (\System::getContainer()->get('contao.security.token_checker')->hasFrontendUser()) {
 			return true;
 		}
 

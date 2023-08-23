@@ -51,7 +51,7 @@ class ls_apiResourceControllerStandardFrontend extends \Controller {
 		$this->obj_apiReceiver->requireScope(['FE']);
 		$this->obj_apiReceiver->requireUser(['apiUser', 'feUser']);
 
-		if (!FE_USER_LOGGED_IN) {
+		if (!\System::getContainer()->get('contao.security.token_checker')->hasFrontendUser()) {
 			$this->obj_apiReceiver->error();
 			$this->obj_apiReceiver->set_message('no frontend user currently logged in');
 			return;
