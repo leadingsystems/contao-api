@@ -1,6 +1,8 @@
 <?php
 namespace LeadingSystems\Api;
 
+use Contao\System;
+
 class ls_api_authHelper
 {
 	public static function authenticate($arr_allowedAuthTypes = ['apiUser'])
@@ -13,7 +15,7 @@ class ls_api_authHelper
 			return true;
 		} else if (in_array('feUser', $arr_allowedAuthTypes) && self::authenticateFrontendUser()) {
 			return true;
-		} else if (TL_MODE === 'BE' && in_array('beUser', $arr_allowedAuthTypes) && self::authenticateBackendUser()) {
+		} else if (System::getContainer()->get('merconis.routing.scope_matcher')->isBackend() && in_array('beUser', $arr_allowedAuthTypes) && self::authenticateBackendUser()) {
 			return true;
 		}
 

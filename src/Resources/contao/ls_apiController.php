@@ -2,6 +2,8 @@
 
 namespace LeadingSystems\Api;
 
+use Contao\System;
+
 class ls_apiController extends \Controller {
 	protected $str_status = 'fail';
 	protected $var_data = null;
@@ -118,7 +120,7 @@ class ls_apiController extends \Controller {
 	}
 	
 	public function run() {
-		if (TL_MODE === 'FE') {
+		if (System::getContainer()->get('merconis.routing.scope_matcher')->isFrontend()) {
 			/*
 			 * ## Get page data which is later needed for url generation ->
 			 */
@@ -195,8 +197,11 @@ class ls_apiController extends \Controller {
 	}
 
 	public function requireScope($arr_requiredScopes = ['FE', 'BE']) {
-		if (!in_array(TL_MODE, $arr_requiredScopes)) {
-			throw new \Exception('Scope not allowed: '.TL_MODE);
+
+	    $scopeNeedle = System::getContainer()->get('merconis.routing.scope_matcher')->getTLMode();
+
+		if (!in_array($scopeNeedle, $arr_requiredScopes)) {
+			throw new \Exception('Scope not allowed: '.$scopeNeedle);
 		}
 	}
 
@@ -309,7 +314,7 @@ class ls_apiController extends \Controller {
 			return $str_resourceUrl;
 		}
 		
-		if (TL_MODE === 'FE') {
+		if (System::getContainer()->get('merconis.routing.scope_matcher')->isFrontend()) {
 			/*
 			 * Disabling the registered generateFrontendUrl hooks to make sure that registered hooks
 			 * can not produce an error.

@@ -2,7 +2,9 @@
 
 namespace LeadingSystems\Api;
 
-if (TL_MODE == 'BE') {
+use Contao\System;
+
+if (System::getContainer()->get('merconis.routing.scope_matcher')->isBackend()) {
 	$GLOBALS['TL_CSS'][] = 'bundles/leadingsystemsapi/be/css/style.css';
 }
 
