@@ -10,6 +10,7 @@ $GLOBALS['TL_DCA']['tl_ls_api_user'] = array
     'config' => array
     (
         'dataContainer'               => DC_Table::class,
+        'enableVersioning'            => true,
         'onload_callback'             => array
         (
             array('LeadingSystems\Api\tl_ls_api_user', 'checkPermission')
