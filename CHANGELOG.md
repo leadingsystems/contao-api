@@ -5,6 +5,14 @@ Leading Systems API bundle for Contao 4 changelog
  * Enable versioning
  * Fix some issues for Contao 5
 
+### 2.0.5 (2022-12-15)
+
+### 2.0.4 (2022-03-26)
+
+### 2.0.3 (2021-01-13)
+
+### 2.0.2 (2018-07-12)
+
 ### 2.0.1 (2018-04-25)
  * Accept API key in other request context
 
