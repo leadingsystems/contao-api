@@ -120,7 +120,7 @@ class ls_apiController extends \Controller {
 	}
 	
 	public function run() {
-		if (System::getContainer()->get('merconis.routing.scope_matcher')->isFrontend()) {
+		if (System::getContainer()->get('merconis.routing.scope')->isFrontend()) {
 			/*
 			 * ## Get page data which is later needed for url generation ->
 			 */
@@ -198,10 +198,8 @@ class ls_apiController extends \Controller {
 
 	public function requireScope($arr_requiredScopes = ['FE', 'BE']) {
 
-	    $scopeNeedle = System::getContainer()->get('merconis.routing.scope_matcher')->getTLMode();
-
-		if (!in_array($scopeNeedle, $arr_requiredScopes)) {
-			throw new \Exception('Scope not allowed: '.$scopeNeedle);
+		if (!in_array(System::getContainer()->get('merconis.routing.scope')->getTLMode(), $arr_requiredScopes)) {
+			throw new \Exception('Scope not allowed: '.System::getContainer()->get('merconis.routing.scope')->getTLMode());
 		}
 	}
 
@@ -314,7 +312,7 @@ class ls_apiController extends \Controller {
 			return $str_resourceUrl;
 		}
 		
-		if (System::getContainer()->get('merconis.routing.scope_matcher')->isFrontend()) {
+		if (System::getContainer()->get('merconis.routing.scope')->isFrontend()) {
 			/*
 			 * Disabling the registered generateFrontendUrl hooks to make sure that registered hooks
 			 * can not produce an error.

@@ -6,7 +6,7 @@ use Contao\System;
 
 class mod_ls_apiReceiver extends \Module {
 	public function generate() {
-		if (System::getContainer()->get('merconis.routing.scope_matcher')->isBackend()) {
+		if (System::getContainer()->get('merconis.routing.scope')->isBackend()) {
 			$objTemplate = new \BackendTemplate('be_wildcard');
 			$objTemplate->wildcard = '### LS API RECEIVER (FRONTEND) ###';
 			return $objTemplate->parse();
