@@ -317,10 +317,12 @@ class ls_apiController extends \Controller {
 			if (isset($GLOBALS['TL_HOOKS']['generateFrontendUrl'])) {
                 $arr_tmp_generateFrontendUrlHooks = $GLOBALS['TL_HOOKS']['generateFrontendUrl'];
                 $GLOBALS['TL_HOOKS']['generateFrontendUrl'] = array();
+            }
 
-                $str_resourceUrl = $this->generateFrontendUrl($this->arr_pageData, '/resource/'.$str_resourceName);
-                $str_resourceUrl = $this->Environment->base.$str_resourceUrl;
+            $str_resourceUrl = $this->generateFrontendUrl($this->arr_pageData, '/resource/'.$str_resourceName);
+            $str_resourceUrl = $this->Environment->base.$str_resourceUrl;
 
+            if (isset($GLOBALS['TL_HOOKS']['generateFrontendUrl'])) {
                 $GLOBALS['TL_HOOKS']['generateFrontendUrl'] = $arr_tmp_generateFrontendUrlHooks;
                 unset($arr_tmp_generateFrontendUrlHooks);
             }
