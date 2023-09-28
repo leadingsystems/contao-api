@@ -2,8 +2,6 @@
 
 namespace LeadingSystems\Api;
 
-use Contao\System;
-
 if (TL_MODE === 'BE') {
 	$GLOBALS['TL_CSS'][] = 'bundles/leadingsystemsapi/be/css/style.css';
 }
