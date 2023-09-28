@@ -1,10 +1,11 @@
 Leading Systems API bundle for Contao 4 changelog
 ===========================================
 
-### 2.0.6 (2023-09-21)
+### 2.1.0 (2023-09-28)
  * Enable versioning
  * Fix some issues for Contao 5
  * Fix generated URL for FE
+ * Removed Contao 4.9 compatibility
 
 ### 2.0.5 (2022-12-15)
 
