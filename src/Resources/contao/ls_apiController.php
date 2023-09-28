@@ -2,6 +2,9 @@
 
 namespace LeadingSystems\Api;
 
+use Contao\System;
+use Symfony\Component\HttpFoundation\Request;
+
 class ls_apiController extends \Controller {
 	protected $str_status = 'fail';
 	protected $var_data = null;
@@ -118,7 +121,11 @@ class ls_apiController extends \Controller {
 	}
 	
 	public function run() {
-		if (TL_MODE === 'FE') {
+		if (
+            System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest(
+                System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')
+            )
+        ) {
 			/*
 			 * ## Get page data which is later needed for url generation ->
 			 */
@@ -195,8 +202,21 @@ class ls_apiController extends \Controller {
 	}
 
 	public function requireScope($arr_requiredScopes = ['FE', 'BE']) {
-		if (!in_array(TL_MODE, $arr_requiredScopes)) {
-			throw new \Exception('Scope not allowed: '.TL_MODE);
+
+        $tl_mode_toTest = '';
+        if(System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest(
+            System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')
+        )){
+            $tl_mode_toTest = 'BE';
+        }
+        if(System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest(
+            System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')
+        )){
+            $tl_mode_toTest = 'FE';
+        }
+
+		if (!in_array($tl_mode_toTest, $arr_requiredScopes)) {
+			throw new \Exception('Scope not allowed: '.$tl_mode_toTest);
 		}
 	}
 
@@ -309,7 +329,11 @@ class ls_apiController extends \Controller {
 			return $str_resourceUrl;
 		}
 		
-		if (TL_MODE === 'FE') {
+		if (
+            System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest(
+                System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')
+            )
+        ) {
 			/*
 			 * Disabling the registered generateFrontendUrl hooks to make sure that registered hooks
 			 * can not produce an error.
@@ -317,10 +341,12 @@ class ls_apiController extends \Controller {
 			if (isset($GLOBALS['TL_HOOKS']['generateFrontendUrl'])) {
                 $arr_tmp_generateFrontendUrlHooks = $GLOBALS['TL_HOOKS']['generateFrontendUrl'];
                 $GLOBALS['TL_HOOKS']['generateFrontendUrl'] = array();
+            }
 
-                $str_resourceUrl = $this->generateFrontendUrl($this->arr_pageData, '/resource/'.$str_resourceName);
-                $str_resourceUrl = $this->Environment->base.$str_resourceUrl;
+            $str_resourceUrl = $this->generateFrontendUrl($this->arr_pageData, '/resource/'.$str_resourceName);
+            $str_resourceUrl = $this->Environment->base.$str_resourceUrl;
 
+            if (isset($GLOBALS['TL_HOOKS']['generateFrontendUrl'])) {
                 $GLOBALS['TL_HOOKS']['generateFrontendUrl'] = $arr_tmp_generateFrontendUrlHooks;
                 unset($arr_tmp_generateFrontendUrlHooks);
             }

@@ -2,7 +2,7 @@
 
 namespace LeadingSystems\Api;
 
-if (TL_MODE == 'BE') {
+if (TL_MODE === 'BE') {
 	$GLOBALS['TL_CSS'][] = 'bundles/leadingsystemsapi/be/css/style.css';
 }
 

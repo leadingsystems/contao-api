@@ -1,6 +1,9 @@
 <?php
 namespace LeadingSystems\Api;
 
+use Contao\System;
+use Symfony\Component\HttpFoundation\Request;
+
 class ls_api_authHelper
 {
 	public static function authenticate($arr_allowedAuthTypes = ['apiUser'])
@@ -13,7 +16,11 @@ class ls_api_authHelper
 			return true;
 		} else if (in_array('feUser', $arr_allowedAuthTypes) && self::authenticateFrontendUser()) {
 			return true;
-		} else if (TL_MODE === 'BE' && in_array('beUser', $arr_allowedAuthTypes) && self::authenticateBackendUser()) {
+		} else if (
+		    System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest(
+                System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')
+            ) && in_array('beUser', $arr_allowedAuthTypes) && self::authenticateBackendUser()
+        ) {
 			return true;
 		}
 
@@ -22,7 +29,7 @@ class ls_api_authHelper
 
 	protected static function authenticateFrontendUser()
 	{
-		if (FE_USER_LOGGED_IN) {
+		if (\System::getContainer()->get('contao.security.token_checker')->hasFrontendUser()) {
 			return true;
 		}
 
