@@ -2,6 +2,8 @@
 
 namespace LeadingSystems\Api;
 
+use Contao\System;
+
 class ls_apiResourceControllerStandardFrontend extends \Controller {
 	protected static $objInstance;
 
@@ -39,19 +41,21 @@ class ls_apiResourceControllerStandardFrontend extends \Controller {
 			$this->{$str_resourceName}();
 		}
 	}
-	
-	/**
-	 * Returns the currently logged in frontend user's name
-	 *
-	 * Scope: FE
-	 *
-	 * Allowed user types: apiUser, feUser
-	 */
+
+    /**
+     * Returns the currently logged in frontend user's name
+     *
+    * Scope: FE
+     *
+     * Allowed user types: apiUser, feUser
+     * @throws \Exception
+     */
 	protected function apiResource_getCurrentFrontendUserName() {
 		$this->obj_apiReceiver->requireScope(['FE']);
 		$this->obj_apiReceiver->requireUser(['apiUser', 'feUser']);
 
-		if (!\System::getContainer()->get('contao.security.token_checker')->hasFrontendUser()) {
+		if (!System::getContainer()->get('contao.security.token_checker')->hasFrontendUser())
+        {
 			$this->obj_apiReceiver->error();
 			$this->obj_apiReceiver->set_message('no frontend user currently logged in');
 			return;

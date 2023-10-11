@@ -3,7 +3,6 @@
 namespace LeadingSystems\Api;
 
 use Contao\System;
-use Symfony\Component\HttpFoundation\Request;
 
 class ls_apiController extends \Controller {
 	protected $str_status = 'fail';
@@ -120,12 +119,12 @@ class ls_apiController extends \Controller {
 		return $this->bln_statusSet && $this->str_status === 'error';
 	}
 	
-	public function run() {
-		if (
-            System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest(
-                System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')
-            )
-        ) {
+	public function run()
+    {
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
+
+		if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest($request))
+        {
 			/*
 			 * ## Get page data which is later needed for url generation ->
 			 */
@@ -201,22 +200,25 @@ class ls_apiController extends \Controller {
 		}
 	}
 
-	public function requireScope($arr_requiredScopes = ['FE', 'BE']) {
+	public function requireScope($arr_requiredScopes = ['FE', 'BE'])
+    {
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
+        $scopeMatcher = System::getContainer()->get('contao.routing.scope_matcher');
+        $str_tlMode = '';
 
-        $tl_mode_toTest = '';
-        if(System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest(
-            System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')
-        )){
-            $tl_mode_toTest = 'BE';
-        }
-        if(System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest(
-            System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')
-        )){
-            $tl_mode_toTest = 'FE';
+        if ($request && $scopeMatcher->isBackendRequest($request))
+        {
+            $str_tlMode = 'BE';
         }
 
-		if (!in_array($tl_mode_toTest, $arr_requiredScopes)) {
-			throw new \Exception('Scope not allowed: '.$tl_mode_toTest);
+        if ($request && $scopeMatcher->isFrontendRequest($request))
+        {
+            $str_tlMode = 'FE';
+        }
+
+		if (!in_array($str_tlMode, $arr_requiredScopes))
+        {
+			throw new \Exception('Scope not allowed: '.$str_tlMode);
 		}
 	}
 
@@ -328,12 +330,11 @@ class ls_apiController extends \Controller {
 		if (!is_object($obj_reflectionMethod)) {
 			return $str_resourceUrl;
 		}
-		
-		if (
-            System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest(
-                System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')
-            )
-        ) {
+
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
+
+		if ( $request && System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest($request))
+        {
 			/*
 			 * Disabling the registered generateFrontendUrl hooks to make sure that registered hooks
 			 * can not produce an error.

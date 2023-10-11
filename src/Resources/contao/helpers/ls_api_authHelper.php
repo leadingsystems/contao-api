@@ -2,7 +2,6 @@
 namespace LeadingSystems\Api;
 
 use Contao\System;
-use Symfony\Component\HttpFoundation\Request;
 
 class ls_api_authHelper
 {
@@ -12,14 +11,17 @@ class ls_api_authHelper
 			return false;
 		}
 
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
+
 		if (in_array('apiUser', $arr_allowedAuthTypes) && self::authenticateApiUser()) {
 			return true;
 		} else if (in_array('feUser', $arr_allowedAuthTypes) && self::authenticateFrontendUser()) {
 			return true;
 		} else if (
-		    System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest(
-                System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create('')
-            ) && in_array('beUser', $arr_allowedAuthTypes) && self::authenticateBackendUser()
+            (
+                $request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request)
+            )
+            && in_array('beUser', $arr_allowedAuthTypes) && self::authenticateBackendUser()
         ) {
 			return true;
 		}
