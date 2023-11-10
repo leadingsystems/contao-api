@@ -2,26 +2,30 @@
 
 namespace LeadingSystems\Api;
 
+/*
+ * @toDo remove TL_MODE for Contao 5
+ * use: System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest(System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create(''))
+ */
 if (TL_MODE === 'BE') {
-	$GLOBALS['TL_CSS'][] = 'bundles/leadingsystemsapi/be/css/style.css';
+    $GLOBALS['TL_CSS'][] = 'bundles/leadingsystemsapi/be/css/style.css';
 }
 
 $GLOBALS['BE_MOD']['ls_api'] = array(
-	'ls_api_key' => array(
-		'tables' => array('tl_ls_api_key')
-	),
+    'ls_api_key' => array(
+        'tables' => array('tl_ls_api_key')
+    ),
 
-	'ls_api_user' => array(
-		'tables' => array('tl_ls_api_user')
-	),
+    'ls_api_user' => array(
+        'tables' => array('tl_ls_api_user')
+    ),
 
-	'be_mod_ls_apiReceiver' => array(
-		'callback' => 'LeadingSystems\Api\be_mod_ls_apiReceiver'
-	)
+    'be_mod_ls_apiReceiver' => array(
+        'callback' => 'LeadingSystems\Api\be_mod_ls_apiReceiver'
+    )
 );
 
 $GLOBALS['FE_MOD']['ls_api'] = array(
-	'ls_apiReceiver' => 'LeadingSystems\Api\mod_ls_apiReceiver'
+    'ls_apiReceiver' => 'LeadingSystems\Api\mod_ls_apiReceiver'
 );
 
 $GLOBALS['TL_HOOKS']['addCustomRegexp'][] = array('LeadingSystems\Api\ls_api_custom_regexp', 'customRegexp');
