@@ -2,6 +2,7 @@
 
 namespace LeadingSystems\Api;
 
+use Contao\Backend;
 use Contao\DataContainer;
 use Contao\DC_Table;
 
@@ -121,7 +122,7 @@ $GLOBALS['TL_DCA']['tl_ls_api_user'] = array
     )
 );
 
-class tl_ls_api_user extends \Backend {
+class tl_ls_api_user extends Backend {
     public function __construct() {
         parent::__construct();
         $this->import('BackendUser', 'User');

@@ -3,6 +3,7 @@
 namespace LeadingSystems\Api;
 
 use Contao\Backend;
+use Contao\Database;
 use Contao\DC_File;
 
 $GLOBALS['TL_DCA']['tl_ls_api_key'] = array
@@ -85,7 +86,7 @@ class tl_ls_api_key extends Backend
     }
 
     public function removeApiKeyEntryFromLog() {
-        \Database::getInstance()
+        Database::getInstance()
             ->prepare("
                 DELETE FROM		`tl_log`
                 WHERE			`text` LIKE '%ls_api_key%'
