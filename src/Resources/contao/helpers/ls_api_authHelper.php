@@ -99,7 +99,7 @@ class ls_api_authHelper
         throw new \Exception('Password could not be verified. Please install the libsodium extension.');
     }
 
-    protected static function checkApiKey()
+    public static function checkApiKey()
     {
         $str_apiKey = \Input::post('ls_api_key');
         if (!$str_apiKey) {
@@ -111,17 +111,6 @@ class ls_api_authHelper
         }
 
         return false;
-    }
-
-    /*
-     * In this function we check for a valid API key and if there is one,
-     * we deactivate the referer check. If there is none, we don't do anything.
-     */
-    public static function bypassRefererCheckWithValidApiKey()
-    {
-        if (self::checkApiKey()) {
-            \Config::set('disableRefererCheck', true);
-        }
     }
 
     protected static function getApiKey()

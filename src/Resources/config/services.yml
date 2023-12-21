@@ -1,0 +1,13 @@
+services:
+
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  LeadingSystems\ApiBundle\EventListener\RequestListener:
+    arguments:
+      - '@contao.framework'
+      - '@contao.routing.scope_matcher'
+    tags:
+      - { name: kernel.event_listener, priority: 15 }

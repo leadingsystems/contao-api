@@ -29,8 +29,6 @@ $GLOBALS['FE_MOD']['ls_api'] = array(
 
 $GLOBALS['TL_HOOKS']['addCustomRegexp'][] = array('LeadingSystems\Api\ls_api_custom_regexp', 'customRegexp');
 
-$GLOBALS['TL_HOOKS']['initializeSystem'][] = array('LeadingSystems\Api\ls_api_authHelper', 'bypassRefererCheckWithValidApiKey');
-
 $GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'][] = array('LeadingSystems\Api\ls_apiResourceControllerStandard', 'processRequest');
 
 $GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'][] = array('LeadingSystems\Api\ls_apiResourceControllerStandardBackend', 'processRequest');
