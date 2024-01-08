@@ -2,7 +2,9 @@
 
 namespace LeadingSystems\Api;
 
-class be_mod_ls_apiReceiver extends \BackendModule {
+use Contao\BackendModule;
+
+class be_mod_ls_apiReceiver extends BackendModule {
 	public function compile() {
 		/*
 		 * Make sure that api call URIs are never stored as a referrer because otherwise
