@@ -1,6 +1,9 @@
 <?php
 namespace LeadingSystems\Api;
 
+use Contao\Config;
+use Contao\Database;
+use Contao\Input;
 use Contao\System;
 
 class ls_api_authHelper
@@ -31,7 +34,7 @@ class ls_api_authHelper
 
     protected static function authenticateFrontendUser()
     {
-        if (\System::getContainer()->get('contao.security.token_checker')->hasFrontendUser()) {
+        if (System::getContainer()->get('contao.security.token_checker')->hasFrontendUser()) {
             return true;
         }
 
@@ -53,14 +56,14 @@ class ls_api_authHelper
 
     protected static function authenticateApiUser()
     {
-        $str_username = \Input::post('ls_api_username');
-        $str_password = \Input::post('ls_api_password');
+        $str_username = Input::post('ls_api_username');
+        $str_password = Input::post('ls_api_password');
 
         if (!$str_username || !$str_password) {
             return false;
         }
 
-        $obj_apiUser = \Database::getInstance()
+        $obj_apiUser = Database::getInstance()
             ->prepare("
                     SELECT		`password`
                     FROM		`tl_ls_api_user`
@@ -101,9 +104,9 @@ class ls_api_authHelper
 
     protected static function checkApiKey()
     {
-        $str_apiKey = \Input::post('ls_api_key');
+        $str_apiKey = Input::post('ls_api_key');
         if (!$str_apiKey) {
-            $str_apiKey = \Input::get('ls_api_key');
+            $str_apiKey = Input::get('ls_api_key');
         }
 
         if ($str_apiKey && $str_apiKey === self::getApiKey()) {
@@ -120,7 +123,7 @@ class ls_api_authHelper
     public static function bypassRefererCheckWithValidApiKey()
     {
         if (self::checkApiKey()) {
-            \Config::set('disableRefererCheck', true);
+            Config::set('disableRefererCheck', true);
         }
     }
 
