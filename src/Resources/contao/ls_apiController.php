@@ -339,11 +339,13 @@ class ls_apiController extends \Controller {
              * Disabling the registered generateFrontendUrl hooks to make sure that registered hooks
              * can not produce an error.
              */
+            // @toDo Hook: generateFrontendUrl is deprecated
             if (isset($GLOBALS['TL_HOOKS']['generateFrontendUrl'])) {
                 $arr_tmp_generateFrontendUrlHooks = $GLOBALS['TL_HOOKS']['generateFrontendUrl'];
                 $GLOBALS['TL_HOOKS']['generateFrontendUrl'] = array();
             }
 
+            // @toDo fix generateFrontendUrl
             $str_resourceUrl = $this->generateFrontendUrl($this->arr_pageData, '/resource/'.$str_resourceName);
             $str_resourceUrl = $this->Environment->base.$str_resourceUrl;
 
