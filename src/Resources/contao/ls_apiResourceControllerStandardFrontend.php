@@ -2,9 +2,10 @@
 
 namespace LeadingSystems\Api;
 
+use Contao\Controller;
 use Contao\System;
 
-class ls_apiResourceControllerStandardFrontend extends \Controller {
+class ls_apiResourceControllerStandardFrontend extends Controller {
     protected static $objInstance;
 
     /** @var ls_apiController $obj_apiReceiver */

@@ -2,9 +2,11 @@
 
 namespace LeadingSystems\Api;
 
+use Contao\Widget;
+
 class ls_api_custom_regexp
 {
-	public function customRegexp($str_regexp, &$var_value, \Widget $obj_widget) {
+	public function customRegexp($str_regexp, &$var_value, Widget $obj_widget) {
 		switch ($str_regexp) {
 			case 'ls_api_key':
 				/*

@@ -2,9 +2,10 @@
 
 namespace LeadingSystems\Api;
 
+use Contao\Controller;
 use Contao\System;
 
-class ls_apiController extends \Controller {
+class ls_apiController extends Controller {
     protected $str_status = 'fail';
     protected $var_data = null;
     protected $str_message = null;
@@ -153,7 +154,7 @@ class ls_apiController extends \Controller {
 
         if (isset($GLOBALS['LS_API_HOOKS']['afterProcessingRequest']) && is_array($GLOBALS['LS_API_HOOKS']['afterProcessingRequest'])) {
             foreach ($GLOBALS['LS_API_HOOKS']['afterProcessingRequest'] as $ls_api_hookCallback) {
-                $objMccb = \System::importStatic($ls_api_hookCallback[0]);
+                $objMccb = System::importStatic($ls_api_hookCallback[0]);
                 $objMccb->{$ls_api_hookCallback[1]}($this);
             }
         }
@@ -250,7 +251,7 @@ class ls_apiController extends \Controller {
         try {
             if (isset($GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest']) && is_array($GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'])) {
                 foreach ($GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'] as $ls_api_hookCallback) {
-                    $objMccb = \System::importStatic($ls_api_hookCallback[0]);
+                    $objMccb = System::importStatic($ls_api_hookCallback[0]);
                     $objMccb->{$ls_api_hookCallback[1]}($str_resourceName, $this);
 
                     /*
