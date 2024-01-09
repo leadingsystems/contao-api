@@ -104,6 +104,7 @@ $GLOBALS['TL_DCA']['tl_ls_api_user'] = array
             'eval'                    => array('mandatory' => true, 'rgxp' => 'extnd', 'nospace' => true, 'unique' => true, 'maxlength' => 64, 'tl_class'=>'w50'),
             'sql'                     => "varchar(64) BINARY NULL"
         ),
+        // @toDo Add Regular expression to avoid specific characters
         'password' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_ls_api_user']['password'],

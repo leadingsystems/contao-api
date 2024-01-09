@@ -1,9 +1,10 @@
 Leading Systems API bundle for Contao 4 changelog
 ===========================================
 
-### 3.0.0 (nry: 2023-12-19)
- * Removed Contao 4.13 compatibility
+### 2.1.2 (nry: 2024-01-09)
  * Removed TL_MODE
+ * Fix disable Referer-Check
+ * Fix undefined classes for Contao 5
 
 ### 2.1.1 (2023-12-11)
  * Fix some issues for Contao 5
