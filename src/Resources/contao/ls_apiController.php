@@ -326,6 +326,7 @@ class ls_apiController extends Controller {
     }
 
     protected function getResourceUrl($obj_reflectionMethod, $str_resourceName) {
+        global $objPage;
         $str_resourceUrl = '';
 
         if (!is_object($obj_reflectionMethod)) {
@@ -346,8 +347,7 @@ class ls_apiController extends Controller {
                 $GLOBALS['TL_HOOKS']['generateFrontendUrl'] = array();
             }
 
-            // @toDo fix generateFrontendUrl
-            $str_resourceUrl = $this->generateFrontendUrl($this->arr_pageData, '/resource/'.$str_resourceName);
+            $str_resourceUrl = $objPage->getFrontendUrl(  '/resource/'.$str_resourceName);
             $str_resourceUrl = $this->Environment->base.$str_resourceUrl;
 
             if (isset($GLOBALS['TL_HOOKS']['generateFrontendUrl'])) {
