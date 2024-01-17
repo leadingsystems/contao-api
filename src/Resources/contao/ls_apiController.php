@@ -130,21 +130,9 @@ class ls_apiController extends Controller {
              * ## Get page data which is later needed for url generation ->
              */
             global $objPage;
-            $this->import('Database');
-
-            $obj_dbres_apiPage = $this->Database->prepare("
-                SELECT	*
-                FROM	tl_page
-                WHERE	id = ?
-            ")
-            ->limit(1)
-            ->execute($objPage->id);
-
-            if (!$obj_dbres_apiPage->numRows) {
+            if (!($objPage ?? null) || !($objPage->id ?? null) ) {
                 return;
             }
-
-            $this->arr_pageData = $obj_dbres_apiPage->row();
             /*
              * <- ##
              */
