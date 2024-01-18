@@ -325,23 +325,8 @@ class ls_apiController extends Controller {
 
         if ( $request && System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest($request))
         {
-            /*
-             * Disabling the registered generateFrontendUrl hooks to make sure that registered hooks
-             * can not produce an error.
-             */
-            // @toDo Hook: generateFrontendUrl is deprecated
-            if (isset($GLOBALS['TL_HOOKS']['generateFrontendUrl'])) {
-                $arr_tmp_generateFrontendUrlHooks = $GLOBALS['TL_HOOKS']['generateFrontendUrl'];
-                $GLOBALS['TL_HOOKS']['generateFrontendUrl'] = array();
-            }
-
             $str_resourceUrl = $objPage->getFrontendUrl(  '/resource/'.$str_resourceName);
             $str_resourceUrl = $this->Environment->base.$str_resourceUrl;
-
-            if (isset($GLOBALS['TL_HOOKS']['generateFrontendUrl'])) {
-                $GLOBALS['TL_HOOKS']['generateFrontendUrl'] = $arr_tmp_generateFrontendUrlHooks;
-                unset($arr_tmp_generateFrontendUrlHooks);
-            }
         } else {
             $str_resourceUrl = $this->Environment->base.'contao?do=be_mod_ls_apiReceiver&resource='.$str_resourceName;
         }
