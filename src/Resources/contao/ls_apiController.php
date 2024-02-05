@@ -3,6 +3,8 @@
 namespace LeadingSystems\Api;
 
 use Contao\Controller;
+use Contao\Environment;
+use Contao\PageModel;
 use Contao\System;
 
 class ls_apiController extends Controller {
@@ -325,10 +327,12 @@ class ls_apiController extends Controller {
 
         if ( $request && System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest($request))
         {
-            $str_resourceUrl = $objPage->getFrontendUrl(  '/resource/'.$str_resourceName);
-            $str_resourceUrl = $this->Environment->base.$str_resourceUrl;
+            /*
+             * @toDo rewrite to service 'contao.routing.page_url_generator'
+             */
+            $str_resourceUrl = PageModel::findById($objPage->id)->getAbsoluteUrl('/resource/'.$str_resourceName);
         } else {
-            $str_resourceUrl = $this->Environment->base.'contao?do=be_mod_ls_apiReceiver&resource='.$str_resourceName;
+            $str_resourceUrl = Environment::get('base').'contao?do=be_mod_ls_apiReceiver&resource='.$str_resourceName;
         }
 
         return $str_resourceUrl;
