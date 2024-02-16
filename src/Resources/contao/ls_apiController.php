@@ -329,6 +329,10 @@ class ls_apiController extends Controller {
         {
             /*
              * @toDo rewrite to service 'contao.routing.page_url_generator'
+             * Attention this creates a BC with Contao 4.13 LTS (< 5.3)
+             * $pageModel = PageModel::findById($objPage->id);
+             * $objContentUrlGenerator = System::getContainer()->get('contao.routing.content_url_generator');
+             * $str_resourceUrl = $objContentUrlGenerator->generate($pageModel,array('parameters' => '/resource/'.$str_resourceName), UrlGeneratorInterface::ABSOLUTE_URL);
              */
             $str_resourceUrl = PageModel::findById($objPage->id)->getAbsoluteUrl('/resource/'.$str_resourceName);
         } else {
