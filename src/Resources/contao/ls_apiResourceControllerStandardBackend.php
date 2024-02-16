@@ -54,7 +54,7 @@ class ls_apiResourceControllerStandardBackend extends Controller {
 		$this->obj_apiReceiver->requireScope(['BE']);
 		$this->obj_apiReceiver->requireUser(['apiUser', 'beUser']);
 
-		$this->import('BackendUser');
+		$this->import('Contao\BackendUser');
 		$this->obj_apiReceiver->success();
 		$this->obj_apiReceiver->set_data($this->BackendUser->name);
 	}
