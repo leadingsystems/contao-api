@@ -2,11 +2,10 @@
 
 namespace LeadingSystems\Api;
 
-/*
- * @toDo remove TL_MODE for Contao 5
- * use: System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest(System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create(''))
- */
-if (TL_MODE === 'BE') {
+use Contao\System;
+use Symfony\Component\HttpFoundation\Request;
+
+if (System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest(System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create(''))) {
     $GLOBALS['TL_CSS'][] = 'bundles/leadingsystemsapi/be/css/style.css';
 }
 
@@ -29,8 +28,6 @@ $GLOBALS['FE_MOD']['ls_api'] = array(
 );
 
 $GLOBALS['TL_HOOKS']['addCustomRegexp'][] = array('LeadingSystems\Api\ls_api_custom_regexp', 'customRegexp');
-
-$GLOBALS['TL_HOOKS']['initializeSystem'][] = array('LeadingSystems\Api\ls_api_authHelper', 'bypassRefererCheckWithValidApiKey');
 
 $GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'][] = array('LeadingSystems\Api\ls_apiResourceControllerStandard', 'processRequest');
 
