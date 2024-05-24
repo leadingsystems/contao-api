@@ -3,6 +3,7 @@
 namespace LeadingSystems\Api;
 
 use Contao\Controller;
+use Contao\Input;
 
 class ls_apiResourceControllerStandard extends Controller {
 	protected static $objInstance;
@@ -62,23 +63,23 @@ class ls_apiResourceControllerStandard extends Controller {
 		 * ==>
 		 * Read and validate input parameters
 		 */
-		if (!$this->Input->get('var_name')) {
+		if (!Input::get('var_name')) {
 			$this->obj_apiReceiver->fail();
 			$this->obj_apiReceiver->set_data('no language file name(s) given [var_name]', 'appendCommaSeparated');
 		} else {
-			$arr_names = is_array($this->Input->get('var_name')) ? $this->Input->get('var_name') : array($this->Input->get('var_name'));
+			$arr_names = is_array(Input::get('var_name')) ? Input::get('var_name') : array(Input::get('var_name'));
 		}
 		
-		if (!$this->Input->get('var_keys')) {
+		if (!Input::get('var_keys')) {
 			$this->obj_apiReceiver->fail();
 			$this->obj_apiReceiver->set_data('no language array key(s) given [var_keys]', 'appendCommaSeparated');
 		} else {
-			$arr_keys = is_array($this->Input->get('var_keys')) ? $this->Input->get('var_keys') : array($this->Input->get('var_keys'));
+			$arr_keys = is_array(Input::get('var_keys')) ? Input::get('var_keys') : array(Input::get('var_keys'));
 		}
 		
-		$str_language = $this->Input->get('str_language') ?: null;
+		$str_language = Input::get('str_language') ?: null;
 		
-		$bln_noCache = $this->Input->get('bln_noCache') ?: false;
+		$bln_noCache = Input::get('bln_noCache') ?: false;
 		
 		if ($this->obj_apiReceiver->check_hasError() || $this->obj_apiReceiver->check_isFailed()) {
 			return;

@@ -4,6 +4,7 @@ namespace LeadingSystems\Api;
 
 use Contao\Controller;
 use Contao\Environment;
+use Contao\Input;
 use Contao\PageModel;
 use Contao\System;
 
@@ -217,7 +218,7 @@ class ls_apiController extends Controller {
         /*
          * Identify the requested resource
          */
-        $str_resourceName = $this->Input->get('resource');
+        $str_resourceName = Input::get('resource');
         if (!$str_resourceName) {
             /*
             $this->error();
