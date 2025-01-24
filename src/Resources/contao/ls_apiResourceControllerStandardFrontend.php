@@ -2,9 +2,10 @@
 
 namespace LeadingSystems\Api;
 
+use Contao\Controller;
 use Contao\System;
 
-class ls_apiResourceControllerStandardFrontend extends \Controller {
+class ls_apiResourceControllerStandardFrontend extends Controller {
     protected static $objInstance;
 
     /** @var ls_apiController $obj_apiReceiver */
@@ -60,7 +61,7 @@ class ls_apiResourceControllerStandardFrontend extends \Controller {
             $this->obj_apiReceiver->set_message('no frontend user currently logged in');
             return;
         }
-        $this->import('FrontendUser');
+        $this->import('Contao\FrontendUser');
         $this->obj_apiReceiver->success();
         $this->obj_apiReceiver->set_data($this->FrontendUser->firstname.' '.$this->FrontendUser->lastname);
     }

@@ -2,9 +2,13 @@
 
 namespace LeadingSystems\Api;
 
+use Contao\Controller;
+use Contao\Environment;
+use Contao\Input;
+use Contao\PageModel;
 use Contao\System;
 
-class ls_apiController extends \Controller {
+class ls_apiController extends Controller {
     protected $str_status = 'fail';
     protected $var_data = null;
     protected $str_message = null;
@@ -129,21 +133,9 @@ class ls_apiController extends \Controller {
              * ## Get page data which is later needed for url generation ->
              */
             global $objPage;
-            $this->import('Database');
-
-            $obj_dbres_apiPage = $this->Database->prepare("
-                SELECT	*
-                FROM	tl_page
-                WHERE	id = ?
-            ")
-            ->limit(1)
-            ->execute($objPage->id);
-
-            if (!$obj_dbres_apiPage->numRows) {
+            if (!($objPage ?? null) || !($objPage->id ?? null) ) {
                 return;
             }
-
-            $this->arr_pageData = $obj_dbres_apiPage->row();
             /*
              * <- ##
              */
@@ -153,7 +145,7 @@ class ls_apiController extends \Controller {
 
         if (isset($GLOBALS['LS_API_HOOKS']['afterProcessingRequest']) && is_array($GLOBALS['LS_API_HOOKS']['afterProcessingRequest'])) {
             foreach ($GLOBALS['LS_API_HOOKS']['afterProcessingRequest'] as $ls_api_hookCallback) {
-                $objMccb = \System::importStatic($ls_api_hookCallback[0]);
+                $objMccb = System::importStatic($ls_api_hookCallback[0]);
                 $objMccb->{$ls_api_hookCallback[1]}($this);
             }
         }
@@ -226,7 +218,7 @@ class ls_apiController extends \Controller {
         /*
          * Identify the requested resource
          */
-        $str_resourceName = $this->Input->get('resource');
+        $str_resourceName = Input::get('resource');
         if (!$str_resourceName) {
             /*
             $this->error();
@@ -250,7 +242,7 @@ class ls_apiController extends \Controller {
         try {
             if (isset($GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest']) && is_array($GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'])) {
                 foreach ($GLOBALS['LS_API_HOOKS']['apiReceiver_processRequest'] as $ls_api_hookCallback) {
-                    $objMccb = \System::importStatic($ls_api_hookCallback[0]);
+                    $objMccb = System::importStatic($ls_api_hookCallback[0]);
                     $objMccb->{$ls_api_hookCallback[1]}($str_resourceName, $this);
 
                     /*
@@ -325,6 +317,7 @@ class ls_apiController extends \Controller {
     }
 
     protected function getResourceUrl($obj_reflectionMethod, $str_resourceName) {
+        global $objPage;
         $str_resourceUrl = '';
 
         if (!is_object($obj_reflectionMethod)) {
@@ -336,23 +329,15 @@ class ls_apiController extends \Controller {
         if ( $request && System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest($request))
         {
             /*
-             * Disabling the registered generateFrontendUrl hooks to make sure that registered hooks
-             * can not produce an error.
+             * @toDo rewrite to service 'contao.routing.page_url_generator'
+             * Attention this creates a BC with Contao 4.13 LTS (< 5.3)
+             * $pageModel = PageModel::findById($objPage->id);
+             * $objContentUrlGenerator = System::getContainer()->get('contao.routing.content_url_generator');
+             * $str_resourceUrl = $objContentUrlGenerator->generate($pageModel,array('parameters' => '/resource/'.$str_resourceName), UrlGeneratorInterface::ABSOLUTE_URL);
              */
-            if (isset($GLOBALS['TL_HOOKS']['generateFrontendUrl'])) {
-                $arr_tmp_generateFrontendUrlHooks = $GLOBALS['TL_HOOKS']['generateFrontendUrl'];
-                $GLOBALS['TL_HOOKS']['generateFrontendUrl'] = array();
-            }
-
-            $str_resourceUrl = $this->generateFrontendUrl($this->arr_pageData, '/resource/'.$str_resourceName);
-            $str_resourceUrl = $this->Environment->base.$str_resourceUrl;
-
-            if (isset($GLOBALS['TL_HOOKS']['generateFrontendUrl'])) {
-                $GLOBALS['TL_HOOKS']['generateFrontendUrl'] = $arr_tmp_generateFrontendUrlHooks;
-                unset($arr_tmp_generateFrontendUrlHooks);
-            }
+            $str_resourceUrl = PageModel::findById($objPage->id)->getAbsoluteUrl('/resource/'.$str_resourceName);
         } else {
-            $str_resourceUrl = $this->Environment->base.'contao?do=be_mod_ls_apiReceiver&resource='.$str_resourceName;
+            $str_resourceUrl = Environment::get('base').'contao?do=be_mod_ls_apiReceiver&resource='.$str_resourceName;
         }
 
         return $str_resourceUrl;
